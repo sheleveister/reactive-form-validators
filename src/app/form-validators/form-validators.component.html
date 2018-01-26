@@ -5,10 +5,11 @@
       <div class="form-group">
         <label>Email</label>
         <input type="text" class="form-control" formControlName="email">
-        <span *ngIf="form.get('user.email').invalid && form.get('user.email').touched"
+        <p *ngIf="form.get('user.email').invalid && form.get('user.email').touched"
           class="form-control--invalid">
-        Email is required field!
-      </span>
+          <span *ngIf="form.get('user.email').errors['email']">Email is required field!</span>
+          <span *ngIf="form.get('user.email').errors['emailIsAlreadyExists']">Email is already exists!</span>
+        </p>
       </div>
 
       <div class="form-group">

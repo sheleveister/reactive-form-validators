@@ -22,7 +22,7 @@ export class FormValidatorsComponent implements OnInit {
   ngOnInit() {
     this.form = new FormGroup({
       user: new FormGroup({
-        email: new FormControl('', [Validators.required, Validators.email]),
+        email: new FormControl('', [Validators.required, Validators.email], this.checkAsynchValueForEmail),
         password: new FormControl('', [Validators.required, this.checkPasswordLength.bind(this)]),
       }),
       country: new FormControl('ru'),
@@ -35,6 +35,20 @@ export class FormValidatorsComponent implements OnInit {
       return { 'passwordInvalid': true };
     }
     return null;
+  }
+
+  public checkAsynchValueForEmail(control: FormControl): Promise<any> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (control.value === 'test@mail.ru') {
+          resolve({
+            'emailIsAlreadyExists': true
+          });
+        } else {
+          resolve(null);
+        }
+      }, 3000); // emulate asynch validator
+    })
   }
 
   public onSubmit() {

@@ -12,21 +12,29 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class FormValidatorsComponent implements OnInit {
 
   public answers = [
-    { type: 'yes', text: 'Yes'},
+    { type: 'yes', text: 'Yes' },
     { type: 'no', text: 'No' }
   ];
 
+  public characterLength = 6;
   public form: FormGroup;
 
   ngOnInit() {
     this.form = new FormGroup({
       user: new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
-        password: new FormControl('', Validators.required),
+        password: new FormControl('', [Validators.required, this.checkPasswordLength.bind(this)]),
       }),
       country: new FormControl('ru'),
       answer: new FormControl('no'),
     });
+  }
+
+  public checkPasswordLength(control: FormControl) {
+    if (control.value.length <= this.characterLength) {
+      return { 'passwordInvalid': true };
+    }
+    return null;
   }
 
   public onSubmit() {

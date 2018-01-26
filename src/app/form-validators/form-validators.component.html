@@ -14,10 +14,15 @@
       <div class="form-group">
         <label>Password</label>
         <input type="password" class="form-control" formControlName="password">
-        <span *ngIf="form.get('user.password').invalid && form.get('user.password').touched"
+        <p *ngIf="form.get('user.password').invalid && form.get('user.password').touched"
           class="form-control--invalid">
-        Password is required field!
-      </span>
+          <span *ngIf="form.get('user.password').errors['required']">
+            Password is required field!
+          </span>
+          <span *ngIf="form.get('user.password').errors['passwordInvalid']">
+            Min length for password is {{ characterLength }} character.
+          </span>
+        </p>
       </div>
     </div>
 
